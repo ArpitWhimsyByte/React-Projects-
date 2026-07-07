@@ -6,6 +6,9 @@ function App() {
   const [numberAllowed,SetNumberAllowed]=useState(false)
   const [characterAllowed,SetCharacterAllowed]=useState(false)
   const[password,SetPassword]=useState("")
+  const [copied, setCopied] = useState(false);
+
+
 
 // refHook
 const passwordRef=useRef(null)
@@ -22,12 +25,15 @@ const passwordRef=useRef(null)
       
     }
     SetPassword(pass)
-
+    setCopied(false)
   },[length,numberAllowed,characterAllowed])
 
   const copyfunc=useCallback(()=>{
-    passwordRef.current?.select()
-    window.navigator.clipboard.writeText(password)
+    if (passwordRef.current) {
+      navigator.clipboard.writeText(passwordRef.current.value);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000); // Reset after 2 seconds
+    }
   },[password])
   useEffect(()=>{
     passwordGenerator()
@@ -45,7 +51,8 @@ const passwordRef=useRef(null)
           readOnly 
           ref={passwordRef}
           />
-          <button onClick={copyfunc} className='text-white outline-none px-3 bg-blue-500 hover:bg-blue-600 rounded'>Copy</button>
+          <button onClick={copyfunc} className='text-white outline-none px-3 bg-blue-500 hover:bg-blue-600 rounded'>{copied ? 'Copied!' : 'Copy'}
+</button>
         </div>
         <div className='flex text-sm gap-x-2'>
           <div className='flex items-center gap-x-1'>
