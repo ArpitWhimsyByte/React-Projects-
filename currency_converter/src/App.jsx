@@ -65,7 +65,7 @@ console.log(options);
                             <Input
                                 label="To"
                                 amount={convertedAmount}
-                                 currencyOptions={options}
+                                currencyOptions={options}
                                 selectCurrency={to}
                                 onCurrencyChange={setTo}
                                 readOnly
